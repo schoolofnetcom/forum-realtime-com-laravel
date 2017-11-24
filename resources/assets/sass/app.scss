@@ -1,9 +1,11 @@
+@import '~materialize-css/dist/css/materialize.css';
 
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
 
-// Variables
-@import "variables";
-
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+main {
+    flex: 1 0 auto;
+}
