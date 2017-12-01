@@ -8,6 +8,12 @@
         <div class="card-content">
             {{ $result->body }}
         </div>
+        <div class="card-action">
+            @if (\Auth::user()->can('update', $result))
+                <a href="/threads/{{ $result->id }}/edit">{{ __('Edit') }}</a>
+            @endif
+            <a href="/">{{ __('Back') }}</a>
+        </div>
     </div>
 
     <replies
