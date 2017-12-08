@@ -161,7 +161,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
+        var _this3 = this;
+
         this.getThreads();
+
+        Echo.channel('new.thread').listen('NewThread', function (e) {
+            console.log(e);
+            if (e.thread) {
+                _this3.threads_response.data.splice(0, 0, e.thread);
+            }
+        });
     }
 });
 

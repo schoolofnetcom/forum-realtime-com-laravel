@@ -9,7 +9,7 @@
             {{ $result->body }}
         </div>
         <div class="card-action">
-            @if (\Auth::user()->can('update', $result))
+            @if (\Auth::user() and \Auth::user()->can('update', $result))
                 <a href="/threads/{{ $result->id }}/edit">{{ __('Edit') }}</a>
             @endif
             <a href="/">{{ __('Back') }}</a>
@@ -21,6 +21,7 @@
         reply="{{ __('Reply') }}"
         your-answer="{{ __('Your answer') }}"
         send="{{ __('Send') }}"
+        thread-id="{{ $result->id  }}"
     >
         @include('layouts.default.preloader')
     </replies>
