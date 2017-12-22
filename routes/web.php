@@ -25,16 +25,21 @@ Route::get('/locale/{locale}', function ($locale) {
     return back();
 });
 
+
+Route::get('/login/{provider}', 'SocialAuthController@redirect');
+Route::get('/login/{provider}/callback', 'SocialAuthController@callback');
+
+Route::get('/threads', 'ThreadsController@index');
+Route::get('/replies/{id}', 'RepliesController@show');
+
 Route::middleware(['auth'])
     ->group(function () {
-        Route::get('/threads', 'ThreadsController@index');
         Route::post('/threads', 'ThreadsController@store');
         Route::put('/threads/{thread}', 'ThreadsController@update');
         Route::get('/threads/{thread}/edit', function (\App\Thread $thread) {
             return view('threads.edit', compact('thread'));
         });
 
-        Route::get('/replies/{id}', 'RepliesController@show');
         Route::post('/replies', 'RepliesController@store');
     });
 

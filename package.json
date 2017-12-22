@@ -19,6 +19,7 @@
         "lodash": "^4.17.4",
         "materialize-css": "^0.100.2",
         "pusher-js": "^4.2.1",
+        "sweetalert2": "^7.0.10",
         "vue": "^2.1.10"
     }
 }
