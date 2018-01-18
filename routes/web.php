@@ -40,9 +40,14 @@ Route::middleware(['auth'])
             return view('threads.edit', compact('thread'));
         });
 
+        Route::get('/reply/highligth/{id}', 'RepliesController@highligth');
+        Route::get('/thread/pin/{thread}', 'ThreadsController@pin');
+        Route::get('/thread/close/{thread}', 'ThreadsController@close');
+
+        Route::get('/profile', 'ProfileController@edit');
+        Route::post('/profile', 'ProfileController@update');
+
         Route::post('/replies', 'RepliesController@store');
     });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

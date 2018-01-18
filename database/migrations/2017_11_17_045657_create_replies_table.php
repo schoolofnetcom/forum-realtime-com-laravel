@@ -16,6 +16,7 @@ class CreateRepliesTable extends Migration
         Schema::create('replies', function (Blueprint $table) {
             $table->increments('id');
             $table->text('body');
+            $table->boolean('highlighted')->default(false);
             $table->integer('thread_id')->unsigned();
             $table->integer('user_id')->unsigned();
 

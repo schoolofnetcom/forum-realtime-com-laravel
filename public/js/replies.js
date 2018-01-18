@@ -1,14 +1,6 @@
 webpackJsonp([3],{
 
-/***/ 49:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(50);
-
-
-/***/ }),
-
-/***/ 5:
+/***/ 1:
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -118,7 +110,15 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 50:
+/***/ 58:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(59);
+
+
+/***/ }),
+
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -128,7 +128,7 @@ module.exports = function normalizeComponent (
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-window.Vue = __webpack_require__(4);
+window.Vue = __webpack_require__(3);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -136,7 +136,7 @@ window.Vue = __webpack_require__(4);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('replies', __webpack_require__(51));
+Vue.component('replies', __webpack_require__(60));
 
 var app = new Vue({
   el: '#app'
@@ -144,15 +144,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 51:
+/***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(5)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(52)
+var __vue_script__ = __webpack_require__(61)
 /* template */
-var __vue_template__ = __webpack_require__(53)
+var __vue_template__ = __webpack_require__(62)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -193,7 +193,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 52:
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -225,13 +225,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['replied', 'reply', 'yourAnswer', 'send', 'threadId'],
+    props: ['replied', 'reply', 'yourAnswer', 'send', 'threadId', 'isClosed'],
     data: function data() {
         return {
             replies: [],
+            logged: window.user || {},
             thread_id: this.threadId,
+            is_closed: this.isClosed,
             reply_to_save: {
                 body: '',
                 thread_id: this.threadId
@@ -271,7 +283,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 53:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -282,71 +294,105 @@ var render = function() {
     "div",
     [
       _vm._l(_vm.replies, function(data) {
-        return _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-content" }, [
-            _c("span", { staticClass: "card-title" }, [
-              _vm._v(_vm._s(data.user.name) + " " + _vm._s(_vm.replied))
+        return _c(
+          "div",
+          {
+            staticClass: "card horizontal",
+            class: { "lime lighten-4": data.highlighted }
+          },
+          [
+            _c("div", { staticClass: "card-images" }, [
+              _c("img", { attrs: { src: data.user.photo_url, alt: "" } })
             ]),
             _vm._v(" "),
-            _c("blockquote", [
-              _vm._v(
-                "\n                " + _vm._s(data.body) + "\n            "
-              )
+            _c("div", { staticClass: "card-stacked" }, [
+              _c("div", { staticClass: "card-content" }, [
+                _c("span", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(data.user.name) + " " + _vm._s(_vm.replied))
+                ]),
+                _vm._v(" "),
+                _c("blockquote", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(data.body) +
+                      "\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.logged.role === "admin"
+                ? _c("div", { staticClass: "card-action" }, [
+                    _c(
+                      "a",
+                      { attrs: { href: "/reply/highligth/" + data.id } },
+                      [_vm._v("em destaque")]
+                    )
+                  ])
+                : _vm._e()
             ])
-          ])
-        ])
+          ]
+        )
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "card grey lighten-4" }, [
-        _c("div", { staticClass: "card-content" }, [
-          _c("span", { staticClass: "card-title" }, [
-            _vm._v(_vm._s(_vm.reply))
-          ]),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  _vm.save()
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "input-field" }, [
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.reply_to_save.body,
-                      expression: "reply_to_save.body"
-                    }
-                  ],
-                  staticClass: "materialize-textarea",
-                  attrs: { rows: "10", placeholder: _vm.yourAnswer },
-                  domProps: { value: _vm.reply_to_save.body },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.reply_to_save, "body", $event.target.value)
-                    }
-                  }
-                })
+      _vm.is_closed == 0
+        ? _c("div", { staticClass: "card grey lighten-4" }, [
+            _c("div", { staticClass: "card-content" }, [
+              _c("span", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.reply))
               ]),
               _vm._v(" "),
               _c(
-                "button",
-                { staticClass: "btn red accent-2", attrs: { type: "submit" } },
-                [_vm._v(_vm._s(_vm.send))]
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.save()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "input-field" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.reply_to_save.body,
+                          expression: "reply_to_save.body"
+                        }
+                      ],
+                      staticClass: "materialize-textarea",
+                      attrs: { rows: "10", placeholder: _vm.yourAnswer },
+                      domProps: { value: _vm.reply_to_save.body },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.reply_to_save,
+                            "body",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn red accent-2",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v(_vm._s(_vm.send))]
+                  )
+                ]
               )
-            ]
-          )
-        ])
-      ])
+            ])
+          ])
+        : _vm._e()
     ],
     2
   )
@@ -363,4 +409,4 @@ if (false) {
 
 /***/ })
 
-},[49]);
+},[58]);

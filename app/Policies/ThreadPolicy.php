@@ -14,4 +14,9 @@ class ThreadPolicy
     {
         return $user->id === $thread->user_id;
     }
+
+    public function isAdmin(User $user, Thread $thread)
+    {
+        return $user->role === 'admin';
+    }
 }

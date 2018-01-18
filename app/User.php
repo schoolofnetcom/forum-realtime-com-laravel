@@ -18,6 +18,10 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    protected $appends = [
+        'photo_url',
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -26,4 +30,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected function getPhotoUrlAttribute()
+    {
+        if ($this->attributes['photo']) {
+            return '/thumb/' . $this->attributes['photo'];
+        }
+    }
 }

@@ -17,7 +17,8 @@ class ThreadsController extends Controller
      */
     public function index()
     {
-        $threads = Thread::orderBy('updated_at', 'desc')
+        $threads = Thread::orderBy('fixed', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate();
 
         return response()->json($threads);
@@ -69,5 +70,25 @@ class ThreadsController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    public function pin(Thread $thread)
+    {
+        $this->authorize('isAdmin', $thread);
+
+        $thread->fixed = true;
+        $thread->save();
+
+        return redirect('/');
+    }
+
+    public function close(Thread $thread)
+    {
+        $this->authorize('isAdmin', $thread);
+
+        $thread->closed = true;
+        $thread->save();
+
+        return redirect('/');
     }
 }
