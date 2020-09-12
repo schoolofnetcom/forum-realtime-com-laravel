@@ -1,8 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'composer:2.0'
-            args  ''
+            image 'php:7.3'
         }
     }
     environment {
