@@ -44,11 +44,16 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
+         
             "@php artisan key:generate"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover"
+            "mkdir -p storage/framework",
+            "mkdir -p storage/framework/sessions",
+            "mkdir -p storage/framework/views",
+            "mkdir -p storage/framework/cache",
+            "@php artisan package:discover --ansi"
         ]
     },
     "config": {
